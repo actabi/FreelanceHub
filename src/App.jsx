@@ -1,41 +1,161 @@
-import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import React, { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { ThemeProvider } from 'styled-components'
+import { theme } from './styles/theme'
 import { GlobalStyles } from './styles/GlobalStyles'
 import Layout from './components/layout/Layout'
-import HomePage from './pages/HomePage'
-import DashboardPage from './pages/DashboardPage'
-import MarketplacePage from './pages/MarketplacePage'
-import ProfilePage from './pages/ProfilePage'
-import CommunityPage from './pages/CommunityPage'
-import MissionsPage from './pages/MissionsPage'
-import ContractsPage from './pages/ContractsPage'
-import FinancePage from './pages/FinancePage'
+
+// Pages
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
+import DashboardPage from './pages/DashboardPage'
+import MissionsPage from './pages/MissionsPage'
+import MarketplacePage from './pages/MarketplacePage'
+import CommunityPage from './pages/CommunityPage'
+import ContractsPage from './pages/ContractsPage'
+import FinancePage from './pages/FinancePage'
+import ProfilePage from './pages/ProfilePage'
+import CooptationPage from './pages/CooptationPage'
 
 function App() {
-  // Simuler un état d'authentification
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false)
-
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  
   return (
-    <Router>
+    <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <Routes>
-        <Route path="/login" element={<LoginPage setIsAuthenticated={setIsAuthenticated} />} />
-        <Route path="/register" element={<RegisterPage setIsAuthenticated={setIsAuthenticated} />} />
-        
-        <Route path="/" element={<Layout isAuthenticated={isAuthenticated} />}>
-          <Route index element={<HomePage />} />
-          <Route path="dashboard" element={<DashboardPage />} />
-          <Route path="marketplace" element={<MarketplacePage />} />
-          <Route path="profile" element={<ProfilePage />} />
-          <Route path="community" element={<CommunityPage />} />
-          <Route path="missions" element={<MissionsPage />} />
-          <Route path="contracts" element={<ContractsPage />} />
-          <Route path="finance" element={<FinancePage />} />
-        </Route>
-      </Routes>
-    </Router>
+      <Router>
+        <Routes>
+          <Route 
+            path="/login" 
+            element={
+              !isAuthenticated ? (
+                <LoginPage setIsAuthenticated={setIsAuthenticated} />
+              ) : (
+                <Navigate to="/dashboard" replace />
+              )
+            } 
+          />
+          <Route 
+            path="/register" 
+            element={
+              !isAuthenticated ? (
+                <RegisterPage setIsAuthenticated={setIsAuthenticated} />
+              ) : (
+                <Navigate to="/dashboard" replace />
+              )
+            } 
+          />
+          <Route 
+            path="/" 
+            element={
+              isAuthenticated ? (
+                <Layout>
+                  <DashboardPage />
+                </Layout>
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            } 
+          />
+          <Route 
+            path="/dashboard" 
+            element={
+              isAuthenticated ? (
+                <Layout>
+                  <DashboardPage />
+                </Layout>
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            } 
+          />
+          <Route 
+            path="/missions" 
+            element={
+              isAuthenticated ? (
+                <Layout>
+                  <MissionsPage />
+                </Layout>
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            } 
+          />
+          <Route 
+            path="/marketplace" 
+            element={
+              isAuthenticated ? (
+                <Layout>
+                  <MarketplacePage />
+                </Layout>
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            } 
+          />
+          <Route 
+            path="/community" 
+            element={
+              isAuthenticated ? (
+                <Layout>
+                  <CommunityPage />
+                </Layout>
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            } 
+          />
+          <Route 
+            path="/contracts" 
+            element={
+              isAuthenticated ? (
+                <Layout>
+                  <ContractsPage />
+                </Layout>
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            } 
+          />
+          <Route 
+            path="/finance" 
+            element={
+              isAuthenticated ? (
+                <Layout>
+                  <FinancePage />
+                </Layout>
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            } 
+          />
+          <Route 
+            path="/profile" 
+            element={
+              isAuthenticated ? (
+                <Layout>
+                  <ProfilePage />
+                </Layout>
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            } 
+          />
+          <Route 
+            path="/cooptation" 
+            element={
+              isAuthenticated ? (
+                <Layout>
+                  <CooptationPage />
+                </Layout>
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            } 
+          />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   )
 }
 

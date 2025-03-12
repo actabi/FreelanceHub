@@ -1,153 +1,179 @@
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
+import { NavLink } from 'react-router-dom'
 import { 
-  FiHome, FiGrid, FiShoppingBag, FiUsers, FiBriefcase, 
-  FiFileText, FiDollarSign, FiSettings, FiHelpCircle, FiX 
+  FiHome, 
+  FiBriefcase, 
+  FiShoppingBag, 
+  FiUsers, 
+  FiFileText, 
+  FiDollarSign, 
+  FiSettings, 
+  FiHelpCircle,
+  FiUserPlus
 } from 'react-icons/fi'
 
 const SidebarContainer = styled.aside`
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 250px;
   background-color: ${props => props.theme.colors.darkGrey};
+  width: 250px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
   padding: 2rem 0;
+  overflow-y: auto;
   transition: ${props => props.theme.transitions.normal};
-  z-index: 1000;
+  z-index: 100;
   
   @media (max-width: ${props => props.theme.breakpoints.tablet}) {
-    transform: ${props => props.isOpen ? 'translateX(0)' : 'translateX(-100%)'};
+    transform: translateX(${props => props.isOpen ? '0' : '-100%'});
+    box-shadow: ${props => props.isOpen ? props.theme.shadows.medium : 'none'};
   }
 `
 
 const Logo = styled.div`
+  padding: 0 1.5rem 2rem;
   display: flex;
   align-items: center;
-  justify-content: center;
+  
+  img {
+    height: 40px;
+  }
+`
+
+const NavSection = styled.div`
   margin-bottom: 2rem;
-  padding: 0 1.5rem;
   
-  h1 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: ${props => props.theme.colors.primary};
-    margin: 0;
+  h3 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #999;
+    padding: 0 1.5rem;
+    margin-bottom: 0.5rem;
   }
 `
 
-const CloseButton = styled.button`
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: none;
-  color: ${props => props.theme.colors.white};
-  font-size: 1.25rem;
-  display: none;
-  
-  @media (max-width: ${props => props.theme.breakpoints.tablet}) {
-    display: block;
-  }
+const NavList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
 `
 
-const NavMenu = styled.nav`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 0 1rem;
-`
-
-const NavItem = styled(Link)`
-  display: flex;
-  align-items: center;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  color: ${props => props.theme.colors.white};
-  transition: ${props => props.theme.transitions.fast};
+const NavItem = styled.li`
+  margin-bottom: 0.25rem;
   
-  svg {
-    margin-right: 0.75rem;
-    font-size: 1.25rem;
-  }
-  
-  &:hover {
-    background-color: rgba(255, 107, 0, 0.1);
-    color: ${props => props.theme.colors.primary};
-  }
-  
-  &.active {
-    background-color: ${props => props.theme.colors.primary};
+  a {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
     color: ${props => props.theme.colors.white};
+    text-decoration: none;
+    transition: ${props => props.theme.transitions.fast};
+    position: relative;
+    
+    svg {
+      margin-right: 0.75rem;
+      font-size: 1.25rem;
+    }
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    
+    &.active {
+      color: ${props => props.theme.colors.primary};
+      background-color: rgba(255, 107, 0, 0.1);
+      
+      &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background-color: ${props => props.theme.colors.primary};
+      }
+    }
   }
-`
-
-const SectionTitle = styled.h3`
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  color: ${props => props.theme.colors.secondary};
-  margin: 1.5rem 1rem 0.5rem;
-  font-weight: 500;
 `
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
-  const location = useLocation()
-  
-  const isActive = (path) => {
-    return location.pathname === path ? 'active' : ''
-  }
-  
   return (
     <SidebarContainer isOpen={isOpen}>
-      <CloseButton onClick={toggleSidebar}>
-        <FiX />
-      </CloseButton>
-      
       <Logo>
-        <h1>FreelanceHub</h1>
+        <img src="/src/assets/logo.svg" alt="FreelanceHub" />
       </Logo>
       
-      <NavMenu>
-        <NavItem to="/" className={isActive('/')}>
-          <FiHome /> Accueil
-        </NavItem>
-        
-        <NavItem to="/dashboard" className={isActive('/dashboard')}>
-          <FiGrid /> Tableau de bord
-        </NavItem>
-        
-        <NavItem to="/marketplace" className={isActive('/marketplace')}>
-          <FiShoppingBag /> Marketplace
-        </NavItem>
-        
-        <NavItem to="/community" className={isActive('/community')}>
-          <FiUsers /> Communauté
-        </NavItem>
-        
-        <SectionTitle>Gestion</SectionTitle>
-        
-        <NavItem to="/missions" className={isActive('/missions')}>
-          <FiBriefcase /> Missions
-        </NavItem>
-        
-        <NavItem to="/contracts" className={isActive('/contracts')}>
-          <FiFileText /> Contrats
-        </NavItem>
-        
-        <NavItem to="/finance" className={isActive('/finance')}>
-          <FiDollarSign /> Finances
-        </NavItem>
-        
-        <SectionTitle>Compte</SectionTitle>
-        
-        <NavItem to="/profile" className={isActive('/profile')}>
-          <FiSettings /> Profil
-        </NavItem>
-        
-        <NavItem to="/help" className={isActive('/help')}>
-          <FiHelpCircle /> Aide
-        </NavItem>
-      </NavMenu>
+      <NavSection>
+        <NavList>
+          <NavItem>
+            <NavLink to="/dashboard" onClick={() => toggleSidebar(false)}>
+              <FiHome />
+              Tableau de bord
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink to="/missions" onClick={() => toggleSidebar(false)}>
+              <FiBriefcase />
+              Missions
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink to="/marketplace" onClick={() => toggleSidebar(false)}>
+              <FiShoppingBag />
+              Marketplace
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink to="/community" onClick={() => toggleSidebar(false)}>
+              <FiUsers />
+              Communauté
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink to="/cooptation" onClick={() => toggleSidebar(false)}>
+              <FiUserPlus />
+              Cooptation
+            </NavLink>
+          </NavItem>
+        </NavList>
+      </NavSection>
+      
+      <NavSection>
+        <h3>Gestion</h3>
+        <NavList>
+          <NavItem>
+            <NavLink to="/contracts" onClick={() => toggleSidebar(false)}>
+              <FiFileText />
+              Contrats
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink to="/finance" onClick={() => toggleSidebar(false)}>
+              <FiDollarSign />
+              Finances
+            </NavLink>
+          </NavItem>
+        </NavList>
+      </NavSection>
+      
+      <NavSection>
+        <h3>Compte</h3>
+        <NavList>
+          <NavItem>
+            <NavLink to="/profile" onClick={() => toggleSidebar(false)}>
+              <FiSettings />
+              Paramètres
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink to="/help" onClick={() => toggleSidebar(false)}>
+              <FiHelpCircle />
+              Aide
+            </NavLink>
+          </NavItem>
+        </NavList>
+      </NavSection>
     </SidebarContainer>
   )
 }
