@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { FiMail, FiLock, FiUser, FiGithub, FiLinkedin } from 'react-icons/fi'
+import { FiMail, FiLock, FiUser, FiGithub, FiLinkedin, FiArrowLeft } from 'react-icons/fi'
 import Button from '../components/ui/Button'
 
 const LoginContainer = styled.div`
@@ -20,6 +20,23 @@ const LoginCard = styled.div`
   width: 100%;
   max-width: 480px;
   box-shadow: ${props => props.theme.shadows.medium};
+`
+
+const BackToHome = styled(Link)`
+  display: flex;
+  align-items: center;
+  color: ${props => props.theme.colors.white};
+  text-decoration: none;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  
+  svg {
+    margin-right: 0.5rem;
+  }
+  
+  &:hover {
+    color: ${props => props.theme.colors.primary};
+  }
 `
 
 const Logo = styled.div`
@@ -151,6 +168,11 @@ const LoginPage = ({ setIsAuthenticated }) => {
   return (
     <LoginContainer>
       <LoginCard>
+        <BackToHome to="/">
+          <FiArrowLeft />
+          Retour à l'accueil
+        </BackToHome>
+        
         <Logo>
           <h1>FreelanceHub</h1>
           <p>La plateforme collaborative pour freelances</p>

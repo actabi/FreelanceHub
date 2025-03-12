@@ -6,6 +6,7 @@ import { GlobalStyles } from './styles/GlobalStyles'
 import Layout from './components/layout/Layout'
 
 // Pages
+import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import DashboardPage from './pages/DashboardPage'
@@ -16,6 +17,7 @@ import ContractsPage from './pages/ContractsPage'
 import FinancePage from './pages/FinancePage'
 import ProfilePage from './pages/ProfilePage'
 import CooptationPage from './pages/CooptationPage'
+import GovernancePage from './pages/GovernancePage'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -25,6 +27,9 @@ function App() {
       <GlobalStyles />
       <Router>
         <Routes>
+          {/* Page d'accueil publique (vitrine) */}
+          <Route path="/" element={<HomePage />} />
+          
           <Route 
             path="/login" 
             element={
@@ -42,18 +47,6 @@ function App() {
                 <RegisterPage setIsAuthenticated={setIsAuthenticated} />
               ) : (
                 <Navigate to="/dashboard" replace />
-              )
-            } 
-          />
-          <Route 
-            path="/" 
-            element={
-              isAuthenticated ? (
-                <Layout>
-                  <DashboardPage />
-                </Layout>
-              ) : (
-                <Navigate to="/login" replace />
               )
             } 
           />
@@ -99,6 +92,18 @@ function App() {
               isAuthenticated ? (
                 <Layout>
                   <CommunityPage />
+                </Layout>
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            } 
+          />
+          <Route 
+            path="/governance" 
+            element={
+              isAuthenticated ? (
+                <Layout>
+                  <GovernancePage />
                 </Layout>
               ) : (
                 <Navigate to="/login" replace />

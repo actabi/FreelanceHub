@@ -10,7 +10,8 @@ import {
   FiDollarSign, 
   FiSettings, 
   FiHelpCircle,
-  FiUserPlus
+  FiUserPlus,
+  FiGitPullRequest
 } from 'react-icons/fi'
 
 const SidebarContainer = styled.aside`
@@ -134,6 +135,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             <NavLink to="/cooptation" onClick={() => toggleSidebar(false)}>
               <FiUserPlus />
               Cooptation
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink to="/governance" onClick={() => toggleSidebar(false)}>
+              <FiGitPullRequest />
+              Gouvernance
             </NavLink>
           </NavItem>
         </NavList>
